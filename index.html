@@ -10,12 +10,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Chosen Palette: Midnight Slate & Amber -->
-    <!-- Application Structure Plan: A top-tier, single-page portfolio designed as a narrative journey. It starts with a dynamic hero section featuring an animated video avatar and key achievements. A sticky navigation bar allows seamless exploration of animated sections: Skills (visualized chart + grouped tags), Experience (redesigned interactive timeline), a new "Principles" section, and Portfolio (enhanced project cards). The page concludes with a strong call-to-action. This structure maximizes engagement and professionalism, guiding the user through a compelling story of expertise to create a memorable impression. -->
+    <!-- Application Structure Plan: A top-tier, single-page portfolio designed as a narrative journey. It starts with a dynamic hero section featuring an animated video avatar and key achievements. A sticky navigation bar allows seamless exploration of animated sections: Skills, Experience, a new "Education" section, Principles, and Portfolio. The page concludes with a strong call-to-action. This structure maximizes engagement and professionalism, guiding the user through a compelling story of expertise to create a memorable impression. -->
     <!-- Visualization & Content Choices: 
         - Hero Avatar: Goal: Impact/Personalization. Method: Autoplaying looped <video>. Justification: Highly engaging and modern replacement for a static image.
         - Hero Metrics: Goal: Impact. Method: Animated counters. Justification: More dynamic and engaging than static numbers.
         - Skills Chart: Goal: Compare/Inform. Method: Chart.js Horizontal Bar Chart with on-scroll animation. Justification: Visually demonstrates proficiency in a compelling way.
         - Experience Timeline: Goal: Show Change. Method: Revamped interactive vertical timeline with icons and scroll-triggered animations. Justification: Enhances the storytelling of career growth.
+        - Education Section: Goal: Inform/Validate. Method: A dedicated card for the Udemy certificate. Justification: Highlights continuous learning and provides verifiable credentials.
         - Principles Section: Goal: Inform/Personalize. Method: Icon-based cards with fade-in animation. Justification: Adds depth to the candidate's professional profile beyond just technical skills.
         - Project Showcase: Goal: Organize/Inform. Method: Elevated card design with hover effects and tech icons. Justification: Improves visual appeal and information density. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
@@ -73,6 +74,7 @@
                     <a href="#about" class="text-slate-600 hover:text-amber-500 transition-colors">Обо мне</a>
                     <a href="#skills" class="text-slate-600 hover:text-amber-500 transition-colors">Навыки</a>
                     <a href="#experience" class="text-slate-600 hover:text-amber-500 transition-colors">Опыт</a>
+                    <a href="#education" class="text-slate-600 hover:text-amber-500 transition-colors">Образование</a>
                     <a href="#portfolio" class="text-slate-600 hover:text-amber-500 transition-colors">Портфолио</a>
                 </div>
                 <a href="#contact" class="bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-600 transition-colors font-semibold">Связаться</a>
@@ -107,7 +109,7 @@
                 </div>
                 <div class="lg:col-span-2 flex justify-center">
                     <div class="w-64 h-64 sm:w-80 sm:h-80 rounded-full overflow-hidden shadow-2xl">
-                       <video class="w-full h-full object-cover" src="0001-0099.mp4" autoplay loop muted playsinline></video>
+                       <video class="w-full h-full object-cover" src="https://storage.googleapis.com/gemini-prod-us-west1-assets/user-project-assets/894901618581/0001-0099.mp4" autoplay loop muted playsinline></video>
                     </div>
                 </div>
             </div>
@@ -240,7 +242,29 @@
             </div>
         </section>
 
-        <section id="portfolio" class="py-20 bg-white fade-in-section">
+        <section id="education" class="py-20 bg-white fade-in-section">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl sm:text-4xl font-bold text-slate-800 text-center mb-16">Образование и Сертификаты</h2>
+                <div class="max-w-2xl mx-auto">
+                    <a href="https://www.udemy.com/certificate/UC-6b7fabf9-4801-4774-a662-391bbe30e0f4/" target="_blank" class="block bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+                        <div class="flex items-start gap-6">
+                            <div class="text-4xl">🎓</div>
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-800">Kotlin с нуля до Junior + подготовка к собеседованию</h3>
+                                <p class="text-slate-600 mt-1">Udemy</p>
+                                <p class="text-sm text-slate-500 mt-2">Преподаватель: Andrey Sumin</p>
+                                <div class="mt-4 inline-flex items-center gap-2 text-amber-600 font-semibold">
+                                    <span>Посмотреть сертификат</span>
+                                    <span>&rarr;</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="portfolio" class="py-20 fade-in-section">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="text-3xl sm:text-4xl font-bold text-slate-800 text-center mb-16">Избранные проекты</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

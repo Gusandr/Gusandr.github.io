@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Резюме | Роман Лошкарев | Android Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Midnight Slate & Amber -->
+    <!-- Application Structure Plan: A top-tier, single-page portfolio designed as a narrative journey. It starts with a dynamic hero section featuring an animated video avatar and key achievements. A sticky navigation bar allows seamless exploration of animated sections: Skills (visualized chart + grouped tags), Experience (redesigned interactive timeline), a new "Principles" section, and Portfolio (enhanced project cards). The page concludes with a strong call-to-action. This structure maximizes engagement and professionalism, guiding the user through a compelling story of expertise to create a memorable impression. -->
+    <!-- Visualization & Content Choices: 
+        - Hero Avatar: Goal: Impact/Personalization. Method: Autoplaying looped <video>. Justification: Highly engaging and modern replacement for a static image.
+        - Hero Metrics: Goal: Impact. Method: Animated counters. Justification: More dynamic and engaging than static numbers.
+        - Skills Chart: Goal: Compare/Inform. Method: Chart.js Horizontal Bar Chart with on-scroll animation. Justification: Visually demonstrates proficiency in a compelling way.
+        - Experience Timeline: Goal: Show Change. Method: Revamped interactive vertical timeline with icons and scroll-triggered animations. Justification: Enhances the storytelling of career growth.
+        - Principles Section: Goal: Inform/Personalize. Method: Icon-based cards with fade-in animation. Justification: Adds depth to the candidate's professional profile beyond just technical skills.
+        - Project Showcase: Goal: Organize/Inform. Method: Elevated card design with hover effects and tech icons. Justification: Improves visual appeal and information density. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
+            color: #1f2937;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 50vh;
+        }
+        @media (min-width: 768px) { .chart-container { height: 450px; } }
+        .timeline-item-content {
+            transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            transform: translateY(-10px);
+            overflow: hidden;
+        }
+        .timeline-item-content.open {
+            max-height: 500px;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .nav-scrolled {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="text-xl font-bold text-slate-800">РЛ</div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#about" class="text-slate-600 hover:text-amber-500 transition-colors">Обо мне</a>
+                    <a href="#skills" class="text-slate-600 hover:text-amber-500 transition-colors">Навыки</a>
+                    <a href="#experience" class="text-slate-600 hover:text-amber-500 transition-colors">Опыт</a>
+                    <a href="#portfolio" class="text-slate-600 hover:text-amber-500 transition-colors">Портфолио</a>
+                </div>
+                <a href="#contact" class="bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-600 transition-colors font-semibold">Связаться</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-16">
+        <section id="hero" class="py-20 sm:py-32">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
+                <div class="lg:col-span-3 text-center lg:text-left">
+                    <h1 class="text-4xl sm:text-6xl font-extrabold text-slate-800 leading-tight">
+                        Роман Лошкарев
+                    </h1>
+                    <p class="mt-4 text-2xl sm:text-3xl text-amber-500 font-semibold">
+                        Android Developer
+                    </p>
+                    <p class="mt-6 max-w-xl mx-auto lg:mx-0 text-lg text-slate-600 leading-relaxed">
+                        Создаю производительные и элегантные мобильные приложения, превращая сложные идеи в удобные для пользователя решения.
+                    </p>
+                    <div class="mt-8 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-y-4 sm:gap-x-6">
+                        <a href="https://github.com/Gusandr" target="_blank" class="flex items-center text-slate-500 hover:text-amber-500 transition-colors p-2">
+                           <span class="text-2xl" title="GitHub">💻</span><span class="ml-2 font-medium">GitHub</span>
+                        </a>
+                        <a href="mailto:chailoshkarev@mail.ru" class="flex items-center text-slate-500 hover:text-amber-500 transition-colors p-2">
+                            <span class="text-2xl" title="Email">✉️</span><span class="ml-2 font-medium">Email</span>
+                        </a>
+                        <a href="https://t.me/china_hola" target="_blank" class="flex items-center text-slate-500 hover:text-amber-500 transition-colors p-2">
+                            <span class="text-2xl" title="Telegram">🚀</span><span class="ml-2 font-medium">@china_hola</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="lg:col-span-2 flex justify-center">
+                    <div class="w-64 h-64 sm:w-80 sm:h-80 rounded-full overflow-hidden shadow-2xl">
+                       <video class="w-full h-full object-cover" src="0001-0099.mp4" autoplay loop muted playsinline></video>
+                    </div>
+                </div>
+            </div>
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 mt-24">
+                 <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
+                    <div class="bg-white p-8 rounded-2xl shadow-lg">
+                        <p class="text-5xl font-bold text-amber-500" data-target="15000">0</p>
+                        <p class="mt-2 text-lg text-slate-600">DAU в коммерческом проекте</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl shadow-lg">
+                        <p class="text-5xl font-bold text-amber-500" data-target="2">0</p>
+                        <p class="mt-2 text-lg text-slate-600">Года коммерческого опыта</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="py-20 bg-white fade-in-section">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl text-center">
+                <h2 class="text-3xl sm:text-4xl font-bold text-slate-800 mb-6">Обо мне</h2>
+                <p class="text-lg text-slate-600 leading-relaxed">
+                    Мотивированный и ориентированный на результат Android-разработчик. Участвовал в развитии продукта для иностранной компании, где отвечал за реализацию нового функционала и поддержку архитектуры. Обладаю глубокими знаниями Kotlin, Jetpack Compose, Coroutines и современных архитектурных подходов (MVVM, MVI, Clean Architecture). Ищу возможность присоединиться к сильной команде для работы над сложными и интересными продуктами.
+                </p>
+            </div>
+        </section>
+        
+        <section id="principles" class="py-20 fade-in-section">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl sm:text-4xl font-bold text-slate-800 text-center mb-16">Мои принципы в разработке</h2>
+                <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-2xl shadow-lg text-center">
+                        <span class="text-4xl">✨</span>
+                        <h3 class="text-xl font-bold mt-4 mb-2">Чистый код</h3>
+                        <p class="text-slate-600">Пишу поддерживаемый и масштабируемый код, следуя принципам SOLID и KISS.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl shadow-lg text-center">
+                        <span class="text-4xl">🎯</span>
+                        <h3 class="text-xl font-bold mt-4 mb-2">Фокус на пользователе</h3>
+                        <p class="text-slate-600">Создаю интуитивно понятные и отзывчивые интерфейсы, которые решают реальные задачи.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl shadow-lg text-center">
+                        <span class="text-4xl">⚡️</span>
+                        <h3 class="text-xl font-bold mt-4 mb-2">Производительность</h3>
+                        <p class="text-slate-600">Оптимизирую работу приложений для обеспечения максимальной скорости и плавности.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="py-20 bg-white fade-in-section">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl sm:text-4xl font-bold text-slate-800 text-center mb-16">Технический стек</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div class="chart-container">
+                        <canvas id="skillsChart"></canvas>
+                    </div>
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="text-xl font-semibold text-slate-700 mb-3">Ключевые технологии</h3>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="bg-amber-100 text-amber-800 text-md font-medium px-4 py-2 rounded-lg">Kotlin & Coroutines</span>
+                                <span class="bg-amber-100 text-amber-800 text-md font-medium px-4 py-2 rounded-lg">Jetpack Compose</span>
+                                <span class="bg-amber-100 text-amber-800 text-md font-medium px-4 py-2 rounded-lg">Dagger/Hilt</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-slate-700 mb-3">Архитектура</h3>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="bg-sky-100 text-sky-800 text-md font-medium px-4 py-2 rounded-lg">MVI / MVVM</span>
+                                <span class="bg-sky-100 text-sky-800 text-md font-medium px-4 py-2 rounded-lg">Clean Architecture</span>
+                                <span class="bg-sky-100 text-sky-800 text-md font-medium px-4 py-2 rounded-lg">Многомодульность</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-slate-700 mb-3">Инструменты и библиотеки</h3>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="bg-slate-200 text-slate-800 text-md font-medium px-4 py-2 rounded-lg">Retrofit & OkHttp</span>
+                                <span class="bg-slate-200 text-slate-800 text-md font-medium px-4 py-2 rounded-lg">Room/SQLite</span>
+                                <span class="bg-slate-200 text-slate-800 text-md font-medium px-4 py-2 rounded-lg">Gradle</span>
+                                <span class="bg-slate-200 text-slate-800 text-md font-medium px-4 py-2 rounded-lg">Git</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="py-20 fade-in-section">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl sm:text-4xl font-bold text-slate-800 text-center mb-16">Опыт работы</h2>
+                <div class="relative max-w-3xl mx-auto">
+                    <div class="absolute left-4 md:left-1/2 -translate-x-1/2 w-1 h-full bg-slate-200 rounded-full"></div>
+                    
+                    <div class="relative timeline-item mb-12 fade-in-section">
+                        <div class="absolute left-4 md:left-1/2 -translate-x-1/2 w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center text-white font-bold text-xl border-4 border-white">📱</div>
+                        <div class="ml-12 md:ml-[calc(50%+2.5rem)] pl-4 pb-8 cursor-pointer group" onclick="toggleTimeline(this)">
+                            <p class="text-sm text-slate-500">Август 2023 – Настоящее время</p>
+                            <h3 class="text-xl font-bold text-slate-800 mt-1">Android Developer</h3>
+                            <p class="text-md text-slate-600">Польская IT-компания (Remote)</p>
+                            <div class="timeline-item-content mt-4 text-slate-600 space-y-2">
+                                <p>Разработка и поддержка приложения с DAU > 15,000.</p>
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>Внедрение фич с использованием Jetpack Compose, Coroutines, MVI.</li>
+                                    <li>Рефакторинг кода, улучшение производительности.</li>
+                                    <li>Участие в code review и архитектурных обсуждениях.</li>
+                                </ul>
+                            </div>
+                            <span class="mt-2 inline-block text-amber-600 text-sm font-semibold group-hover:underline">Подробнее...</span>
+                        </div>
+                    </div>
+
+                    <div class="relative timeline-item fade-in-section">
+                        <div class="absolute left-4 md:left-1/2 -translate-x-1/2 w-8 h-8 bg-sky-500 rounded-full flex items-center justify-center text-white font-bold text-xl border-4 border-white">🎮</div>
+                         <div class="ml-12 md:mr-[calc(50%+2.5rem)] md:text-right md:pl-0 pl-4 pb-8 cursor-pointer group" onclick="toggleTimeline(this)">
+                            <p class="text-sm text-slate-500">Июнь 2021 – Июль 2023</p>
+                            <h3 class="text-xl font-bold text-slate-800 mt-1">Java Developer / Freelance</h3>
+                            <p class="text-md text-slate-600">Разработка плагинов для Minecraft</p>
+                            <div class="timeline-item-content mt-4 text-slate-600 space-y-2 md:text-left">
+                                <p>Создание кастомных плагинов для игровых серверов.</p>
+                                 <ul class="list-disc list-inside space-y-1">
+                                    <li>Разработка серверной логики на Java и Spigot API.</li>
+                                    <li>Работа с базами данных SQLite.</li>
+                                    <li>Поддержка и публикация плагинов.</li>
+                                </ul>
+                            </div>
+                             <span class="mt-2 inline-block text-sky-600 text-sm font-semibold group-hover:underline">Подробнее...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="portfolio" class="py-20 bg-white fade-in-section">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl sm:text-4xl font-bold text-slate-800 text-center mb-16">Избранные проекты</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col group hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+                        <h3 class="text-xl font-bold text-slate-800">EngDictionaryApp</h3>
+                        <p class="text-slate-600 mt-2 flex-grow">Интерактивное приложение для изучения английских слов с использованием современного стека.</p>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="text-xs font-semibold text-amber-800">Compose</span>
+                            <span class="text-xs font-semibold text-amber-800">MVI</span>
+                            <span class="text-xs font-semibold text-amber-800">Hilt</span>
+                        </div>
+                        <a href="https://github.com/Gusandr/EngDictionaryApp" target="_blank" class="mt-6 text-amber-600 font-semibold self-start group-hover:underline">Посмотреть код &rarr;</a>
+                    </div>
+
+                    <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col group hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+                        <h3 class="text-xl font-bold text-slate-800">GusStiller</h3>
+                        <p class="text-slate-600 mt-2 flex-grow">Приложение для мониторинга ПК с отправкой данных через Discord Webhook без сторонних библиотек.</p>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="text-xs font-semibold text-slate-700">Java</span>
+                            <span class="text-xs font-semibold text-slate-700">JNA</span>
+                            <span class="text-xs font-semibold text-slate-700">Discord API</span>
+                        </div>
+                        <a href="https://github.com/Gusandr/GusStiller" target="_blank" class="mt-6 text-amber-600 font-semibold self-start group-hover:underline">Посмотреть код &rarr;</a>
+                    </div>
+
+                    <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col group hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+                        <h3 class="text-xl font-bold text-slate-800">TGRescue</h3>
+                        <p class="text-slate-600 mt-2 flex-grow">Telegram-бот для модерации и пересылки сообщений с защитой от спама.</p>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="text-xs font-semibold text-sky-800">Kotlin</span>
+                            <span class="text-xs font-semibold text-sky-800">SQLite</span>
+                            <span class="text-xs font-semibold text-sky-800">Telegram API</span>
+                        </div>
+                        <a href="https://github.com/Gusandr/TGRescue" target="_blank" class="mt-6 text-amber-600 font-semibold self-start group-hover:underline">Посмотреть код &rarr;</a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-20 bg-slate-800 text-white fade-in-section">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-3xl">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-4">Давайте создадим что-то выдающееся</h2>
+                <p class="text-lg text-slate-300 mb-8">Я всегда открыт для новых проектов и интересных предложений. Свяжитесь со мной, и мы обсудим, как можем быть полезны друг другу.</p>
+                <a href="mailto:chailoshkarev@mail.ru" class="bg-amber-500 text-white px-8 py-4 rounded-lg hover:bg-amber-600 transition-colors font-bold text-lg inline-block">Написать на почту</a>
+            </div>
+        </section>
+
+        <footer class="text-center py-8 bg-slate-900">
+            <p class="text-slate-400">&copy; 2025 Роман Лошкарев. Все права защищены.</p>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const skillsChartCanvas = document.getElementById('skillsChart');
+            let skillsChart;
+
+            function createChart() {
+                const ctx = skillsChartCanvas.getContext('2d');
+                skillsChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Kotlin & Coroutines', 'Jetpack Compose', 'Architecture (MVI, Clean)', 'Dagger/Hilt', 'Java', 'CI/CD & Gradle'],
+                        datasets: [{
+                            label: 'Уровень владения',
+                            data: [95, 90, 85, 80, 75, 60],
+                            backgroundColor: 'rgba(245, 158, 11, 0.8)',
+                            borderColor: 'rgba(245, 158, 11, 1)',
+                            borderWidth: 1,
+                            borderRadius: 4,
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                backgroundColor: '#1f2937',
+                                titleFont: { size: 16 },
+                                bodyFont: { size: 14 },
+                                callbacks: {
+                                    label: (context) => `${context.dataset.label}: ${context.raw}%`
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                max: 100,
+                                grid: { color: 'rgba(203, 213, 225, 0.2)' },
+                                ticks: {
+                                    color: '#64748b',
+                                    font: { size: 12 },
+                                    callback: (value) => `${value}%`
+                                }
+                            },
+                            y: {
+                                grid: { display: false },
+                                ticks: {
+                                    color: '#334155',
+                                    font: { size: 14, weight: '500' }
+                                }
+                            }
+                        },
+                        animation: {
+                            duration: 1000,
+                            easing: 'easeInOutCubic'
+                        }
+                    }
+                });
+            }
+
+            const sections = document.querySelectorAll('.fade-in-section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        if (entry.target.id === 'skills' && !skillsChart) {
+                            createChart();
+                        }
+                    }
+                });
+            }, { threshold: 0.1 });
+            sections.forEach(section => observer.observe(section));
+
+            const counters = document.querySelectorAll('[data-target]');
+            const speed = 200;
+            const counterObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        const counter = entry.target;
+                        const updateCount = () => {
+                            const target = +counter.getAttribute('data-target');
+                            const count = +counter.innerText;
+                            const inc = target / speed;
+                            if (count < target) {
+                                counter.innerText = Math.ceil(count + inc);
+                                setTimeout(updateCount, 10);
+                            } else {
+                                counter.innerText = target.toLocaleString('ru-RU');
+                            }
+                        };
+                        updateCount();
+                        counterObserver.unobserve(counter);
+                    }
+                });
+            }, { threshold: 0.8 });
+            counters.forEach(counter => counterObserver.observe(counter));
+            
+            const navbar = document.getElementById('navbar');
+            window.onscroll = () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('nav-scrolled');
+                } else {
+                    navbar.classList.remove('nav-scrolled');
+                }
+            };
+        });
+
+        function toggleTimeline(element) {
+            const content = element.querySelector('.timeline-item-content');
+            content.classList.toggle('open');
+        }
+    </script>
+</body>
+</html>
